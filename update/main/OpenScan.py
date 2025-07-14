@@ -146,12 +146,19 @@ def take_photo(file):
     else:
         autofocus = ''
 
+    # Focal lengths varie by the lense and the cam model.
+    # TODO: Calculate it based on the camera and lense given defined by the user.
+    #if camera in FOCAL_LENGTHS:
+    #    focal_length = f' -x "IFD0.FocalLength={FOCAL_LENGTHS[camera]}"'
+    #else:
+    #    focal_length = ''
+
     if camera  == "usb_webcam":
         cmd = 'fswebcam -i 0 -r "1280x720" -F 5 --no-banner --jpeg 95 --save ' + filepath2
     else:
-        cmd = 'libcamera-still -n --denoise off --sharpness 0 -o ' + filepath2 + ' -t ' + timeout  +' --shutter ' + shutter + ' --saturation ' + saturation + ' --contrast ' + contrast + ' --awbgains '+awbg_red + "," + awbg_blue + ' --gain ' + gain + ' -q ' + str(quality) + autofocus + ' >/dev/null 2>&1'
+        cmd = 'libcamera-still -n --denoise off --sharpness 0 -o ' + filepath2 + ' -t ' + timeout  +' --shutter ' + shutter + ' --saturation ' + saturation + ' --contrast ' + contrast + ' --awbgains '+awbg_red + "," + awbg_blue + ' --gain ' + gain + ' -q ' + str(quality) + autofocus + ' -x "IFD0.Make=RaspberryPi" -x "IFD0.Model=RP_' + camera + '" ' + focal_length + ' >/dev/null 2>&1'
     #    cmd = 'libcamera-still -n --denoise off --sharpness 0 -o ' + filepath2 + ' -t ' + timeout  +' --shutter ' + shutter + ' --saturation ' + saturation + ' --contrast ' + contrast + ' --awbgains '+awbg_red + "," + awbg_blue + ' --gain ' + gain + ' -q ' + str(quality) + autofocus
-        
+
     system(cmd)
     return cmd
 
