@@ -6,7 +6,7 @@ import shutil
 from OpenScan import load_int, load_str, load_float, load_bool, ringlight
 import RPi.GPIO as GPIO
 from math import sqrt
-import os 
+import os
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -120,9 +120,9 @@ def crop():
             w,h = img.size
             factor = (w*h)/output_resolution
             if factor > 1:
-                img = img.resize((int(w/sqrt(factor)),int(h/sqrt(factor))),Image.ANTIALIAS) 
+                img = img.resize((int(w/sqrt(factor)),int(h/sqrt(factor))),Image.ANTIALIAS)
 
-        img.save(filepath_out, quality=95, subsampling=0)
+        img.save(filepath_out, quality=95, subsampling=0, exif=img.getexif())
 
     return ({}, 200)
 

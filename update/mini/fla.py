@@ -57,7 +57,7 @@ def crop():
     cropy = int(request.args.get('cropy'))/200
     rotation = int(request.args.get('rotation'))
     preview = str(request.args.get('preview'))
- 
+
     with Image.open(filepath_in) as img:
         w,h = img.size
         if cropx != 0 or cropy != 0:
@@ -73,7 +73,7 @@ def crop():
             if w > downscale_threshold or h > downscale_threshold:
                 downscale = max(w/downscale_threshold,h/downscale_threshold)
             img = img.resize((int(w/downscale),int(h/downscale)),Image.ANTIALIAS)
-        img.save(filepath_out, quality=95, subsampling=0)
+        img.save(filepath_out, quality=95, subsampling=0, exif=img.getexif())
     return ({}, 200)
 
 ###################################################################################################################
